@@ -7,6 +7,7 @@ import GridContainer from "components/Grid/GridContainer.js";
 import CardBody from "components/Card/CardBody.js";
 import { getEmptyForm } from "../../services/user.service"
 
+
 export const UserAuth = ({ isRegister, user }) => {
 
     const [fields, setFields] = useState(isRegister ? getEmptyForm() : user)
@@ -15,6 +16,7 @@ export const UserAuth = ({ isRegister, user }) => {
     const handleChange = (ev) => {
         const { name, value } = ev.target
         setFields({ ...fields, [name]: value })
+        console.log(ev.target);
     }
     
 
