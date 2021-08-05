@@ -1,7 +1,5 @@
-import { storageService } from "./async-storage.service.js";
 import { httpService } from "./httpService.js";
 
-const STORAGE_KEY = "users";
 
 export const userService = { login, register, logout, update, getEmptyForm };
 
