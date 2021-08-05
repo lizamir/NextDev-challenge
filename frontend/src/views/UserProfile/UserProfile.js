@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -14,6 +14,9 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
 import avatar from "assets/img/faces/marc.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "store/actions/userActions";
+import { useHistory } from "react-router-dom";
 
 const styles = {
   cardCategoryWhite: {
@@ -38,6 +41,38 @@ const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
   const classes = useStyles();
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const user = useSelector((rootReducer) => rootReducer.userReducer.user)
+
+  const [fields, setFields] = useState({
+    company: "",
+    username: "",
+    password: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    city: "",
+    country: "",
+    postalCode: "",
+    about: ""
+  });
+
+  const handleChange = (ev) => {
+    const { name, value } = ev.target;
+    setFields({ ...fields, [name]: value });
+  };
+
+  const handleSubmit = () => {
+    dispatch(updateUser(fields)).then(() => {
+      history.push('/dashboard')
+    })
+  }
+
+  useEffect(() => {
+    setFields({ ...user })
+  }, [])
+
   return (
     <div>
       <GridContainer>
@@ -53,29 +88,45 @@ export default function UserProfile() {
                   <CustomInput
                     labelText="Company (disabled)"
                     id="company-disabled"
+                    name="company"
+                    onChange={handleChange}
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
-                      disabled: true
+                      disabled: true,
+                      value: fields.company
                     }}
+
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={3}>
                   <CustomInput
+                    onChange={handleChange}
                     labelText="Username"
                     id="username"
+                    name="username"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                    }}
+                    inputProps={{
+
+                      value: fields.username
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
+                    onChange={handleChange}
                     labelText="Email address"
                     id="email-address"
+                    name="email"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                    }}
+                    inputProps={{
+                      value: fields.email
+
                     }}
                   />
                 </GridItem>
@@ -83,19 +134,30 @@ export default function UserProfile() {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
+                    onChange={handleChange}
                     labelText="First Name"
                     id="first-name"
+                    name="firstName"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                    }}
+                    inputProps={{
+                      value: fields.firstName
+
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
+                    onChange={handleChange}
                     labelText="Last Name"
                     id="last-name"
+                    name="lastName"
                     formControlProps={{
                       fullWidth: true
+                    }}
+                    inputProps={{
+                      value: fields.lastName
                     }}
                   />
                 </GridItem>
@@ -103,28 +165,43 @@ export default function UserProfile() {
               <GridContainer>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
+                    name="city"
+                    onChange={handleChange}
                     labelText="City"
                     id="city"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                    }}
+                    inputProps={{
+                      value: fields.city
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
+                    name="country"
+                    onChange={handleChange}
                     labelText="Country"
                     id="country"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                    }}
+                    inputProps={{
+                      value: fields.country
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
+                    name="postalCode"
+                    onChange={handleChange}
                     labelText="Postal Code"
                     id="postal-code"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
+                    }}
+                    inputProps={{
+                      value: fields.postalCode
                     }}
                   />
                 </GridItem>
@@ -133,21 +210,24 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={12}>
                   <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
                   <CustomInput
+                    onChange={handleChange}
+                    name="about"
                     labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
                     id="about-me"
                     formControlProps={{
-                      fullWidth: true
+                      fullWidth: true,
                     }}
                     inputProps={{
                       multiline: true,
-                      rows: 5
+                      rows: 5,
+                      value: fields.about
                     }}
                   />
                 </GridItem>
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="primary">Update Profile</Button>
+              <Button color="primary" onClick={handleSubmit}>Update Profile</Button>
             </CardFooter>
           </Card>
         </GridItem>

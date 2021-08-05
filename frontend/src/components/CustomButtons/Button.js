@@ -3,6 +3,8 @@ import React from "react";
 import classNames from "classnames";
 // nodejs library to set properties for components
 import PropTypes from "prop-types";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 // material-ui components
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,22 +14,37 @@ import styles from "assets/jss/material-dashboard-react/components/buttonStyle.j
 
 const useStyles = makeStyles(styles);
 
-export default function RegularButton(props) {
+export default function RegularButton({
+  isLoading = false,
+  color,
+  round,
+  children,
+  disabled,
+  simple,
+  size,
+  block,
+  link,
+  justIcon,
+  className,
+  muiClasses,
+  ...rest
+}) {
   const classes = useStyles();
-  const {
-    color,
-    round,
-    children,
-    disabled,
-    simple,
-    size,
-    block,
-    link,
-    justIcon,
-    className,
-    muiClasses,
-    ...rest
-  } = props;
+  // const {
+  //   isLoading = false,
+  //   color,
+  //   round,
+  //   children,
+  //   disabled,
+  //   simple,
+  //   size,
+  //   block,
+  //   link,
+  //   justIcon,
+  //   className,
+  //   muiClasses,
+  //   ...rest
+  // } = props;
   const btnClasses = classNames({
     [classes.button]: true,
     [classes[size]]: size,
@@ -41,8 +58,9 @@ export default function RegularButton(props) {
     [className]: className
   });
   return (
-    <Button {...rest} classes={muiClasses} className={btnClasses}>
-      {children}
+    <Button disabled={isLoading} {...rest} classes={muiClasses} className={btnClasses}>
+      {!isLoading && children}
+      {isLoading && <CircularProgress color="secondary" />}
     </Button>
   );
 }

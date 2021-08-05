@@ -29,20 +29,21 @@ import RTL from "layouts/RTL.js";
 
 import "assets/css/material-dashboard-react.css?v=1.8.0";
 import { PersistGate } from "redux-persist/integration/react";
+import { AppNotification } from "components/AppNotification";
 
 const hist = createBrowserHistory();
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-
-  <Router history={hist}>
-    <Switch>
-      <Route path="/admin" component={Admin} />
-      <Redirect from="/" to="/admin/dashboard" />
-    </Switch>
-      <Route path="/rtl" component={RTL} />
-  </Router>
+      <AppNotification />
+      <Router history={hist}>
+        <Switch>
+          <Route path="/admin" component={Admin} />
+          <Redirect from="/" to="/admin/dashboard" />
+        </Switch>
+        <Route path="/rtl" component={RTL} />
+      </Router>
     </PersistGate>
   </Provider>,
 

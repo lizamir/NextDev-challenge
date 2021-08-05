@@ -5,12 +5,12 @@ import InputLabel from "@material-ui/core/InputLabel";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import CardBody from "components/Card/CardBody.js";
-import { getEmptyForm } from "../../services/user.service"
+import { userService } from "../../services/user.service"
 
 
 export const UserAuth = ({ isRegister, user }) => {
 
-    const [fields, setFields] = useState(isRegister ? getEmptyForm() : user)
+    const [fields, setFields] = useState(isRegister ? userService.getEmptyForm() : user)
 
 
     const handleChange = (ev) => {
@@ -18,7 +18,7 @@ export const UserAuth = ({ isRegister, user }) => {
         setFields({ ...fields, [name]: value })
         console.log(ev.target);
     }
-    
+
 
     return (
         <CardBody>
